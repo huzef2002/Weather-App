@@ -25,7 +25,7 @@ function Forecast({ data }) {
             <AccordionHeader>
               <div className='d-flex align-items-center gap-3'>
                 <img
-                  src={`icons/${item.weather[0].icon}.png`}
+                  src={`/icons/${item.weather[0].icon}.png`}
                   alt='weather icon'
                   style={{ width: 30 }}
                 />
