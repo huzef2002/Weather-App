@@ -2,39 +2,42 @@ import React, { useState } from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { GEO_API_URL, geoApiOption } from '../../Api';
 
-
 function Search({ onSearchChange }) {
     const [search, setSearch] = useState(null);
 
-    const loadOptions = (InputValue) => {
+    
+    const loadOptions = async (inputValue) => {
+        try {
+            const response = await fetch(
+                `${GEO_API_URL}/cities?minPopulation=1000000&namePrefix=${inputValue}`,
+                geoApiOption
+            );
 
-        return fetch(`${GEO_API_URL}/cities?minPopulation=1000000&namePrefix=${InputValue}`, geoApiOption)
-            .then((response) => response.json())
-            .then((response) => {
-                return {
-                    options : response.data.map((city)=>{
-                        return{
-                            label : `${city.name} ${city.countryCode}`,
-                            value:`${city.latitude} ${city.longitude}`,
-                        };
-                    }),
-                };
-            })
-            .catch((err) => console.log(err, "this is wrong "))
+            const data = await response.json();
+
+            return {
+                options: data.data.map((city) => ({
+                    label: `${city.name}, ${city.countryCode}`,
+                    value: `${city.latitude} ${city.longitude}`,
+                })),
+            };
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+            return { options: [] };
+        }
     };
 
-
-    const handelOnChange = (searchData) => {
+    const handleOnChange = (searchData) => {
         setSearch(searchData);
         onSearchChange(searchData);
+    };
 
-    }
     return (
         <AsyncPaginate
-            placeholder="Search for City "
-            debounceTimeout={600}
+            placeholder="Search for City"
+            debounceTimeout={2000}
             value={search}
-            onChange={handelOnChange}
+            onChange={handleOnChange}
             loadOptions={loadOptions}
         />
     );
