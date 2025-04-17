@@ -14,7 +14,7 @@ function Forecast({ data }) {
 
   const dayInWeek = new Date().getDay();
   const forecastDays = WEEK_DAYS.slice(dayInWeek).concat(WEEK_DAYS.slice(0, dayInWeek));
-  console.log(forecastDays);
+  // console.log(forecastDays);
 
   return (
     <div className='container samir'>

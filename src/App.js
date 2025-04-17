@@ -30,8 +30,8 @@ function App() {
 
   }
 
-  console.log(weather);
-  console.log(forecast);
+  // console.log(weather);
+  // console.log(forecast);
   return (
     <div className="container">
       <Search onSearchChange={handeOnSearchChange} />
